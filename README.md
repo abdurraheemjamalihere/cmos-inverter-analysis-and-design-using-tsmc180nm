@@ -18,11 +18,13 @@ The curve is plotted between Id and VDS by sweeping VDS from 0 to 1.8 V for di
 <img width="1145" height="640" alt="Screenshot 2025-08-05 224441" src="https://github.com/user-attachments/assets/6c6d65eb-1df4-4f08-be88-cf7b12a1f06b" />
 Here, we assume a reasonable value of VGS (greater than Vtn), and we will determine the threshold voltage (Vtn) using the SPICE error log. In this setup, the transistor width is taken as 0.36 µm. To view the SPICE error log in LTspice, press Ctrl + L, where you can find the extracted value of Vtn.
 <img width="276" height="345" alt="Screenshot 2025-08-05 224603" src="https://github.com/user-attachments/assets/bccd6fa7-ddc7-431f-a3a5-5992987c2576" />
+
 Thus, we now have all the key values required. A similar procedure can be followed for a PMOS as well.
+
 <img width="1282" height="675" alt="Screenshot 2025-08-05 225219" src="https://github.com/user-attachments/assets/aec87496-f780-49bb-bef3-6b9e72591f1c" />
 The objective remains the same, with a particular focus on determining the aspect ratio at which both NMOS and PMOS produce equal current. Through experimentation, I observed that setting the W/L of the PMOS to four times that of the NMOS yields closely matching current values. Specifically, the NMOS produced a current of 9.1 µA, while the PMOS delivered 9.5 µA at |VGS| = 0.65 V — not bad!
 
-# 1.2 SREONG 0 AND WEAK 1
+# 1.2 STRONG 0 AND WEAK 1
 
 What does this imply? Refer to the schematic and waveforms below for a clearer understanding.
 <img width="1488" height="684" alt="Screenshot 2025-08-05 230156" src="https://github.com/user-attachments/assets/22f4f753-05fe-4a6e-9548-8aba545bdf9b" />
@@ -83,8 +85,41 @@ Using a marker at the point where the slope equals –1 to extract values for VI
 
 <img width="1912" height="797" alt="Screenshot 2025-08-05 232539" src="https://github.com/user-attachments/assets/d8c0538f-f255-439a-9e1e-bb7293cc9256" />
 
+From the graph above, we determined VIL = 0.78 V and VIH = 1.01 V. Now, using these values along with the VTC curve, we can identify and calculate the corresponding VOL and VOH values.
 
+<img width="1917" height="800" alt="Screenshot 2025-08-05 232630" src="https://github.com/user-attachments/assets/fc1054e0-7437-4f45-98ff-835a24cb20c2" />
+Here’s a refined and clearly structured version of your explanation:
 
+From the graph, we calculated the following values:
+* **VOL** = 0.1 V
+* **VOH** = 1.69 V
+### Noise Margins
+Noise margins define the voltage ranges within which a digital circuit can operate reliably, even in the presence of noise. These are critical in digital design, as digital systems operate with discrete voltage levels (e.g., two levels for binary systems). The ability of a circuit to tolerate small voltage disturbances without misinterpreting logic levels is referred to as **Noise Immunity**.
+There are two types of noise margins:
+* **NML (Noise Margin Low)** = VIL – VOL
+* **NMH (Noise Margin High)** = VOH – VIH
+
+### Based on our calculated values:
+* **NML** = 0.78 V – 0.1 V = **0.682 V**
+* **NMH** = 1.69 V – 1.01 V = **0.68 V**
+
+These values are **very close and nearly equal**, indicating a well-balanced inverter with good noise immunity. However, this may not always be the case — in other designs, **Vth** may deviate from **VDD/2**, leading to asymmetric noise margins.
+
+### Summary of Results:
+
+| Parameter | Value   |
+| --------- | ------- |
+| **VIL**   | 0.78 V  |
+| **VIH**   | 1.01 V  |
+| **VOL**   | 0.1 V   |
+| **VOH**   | 1.69 V  |
+| **Vth**   | 0.903 V |
+| **NML**   | 0.682 V |
+| **NMH**   | 0.68 V  |
+
+# CREDITS
+This work is also part of the simulation from our Electronics Lab sessions in the fifth semester, as well as VLSI Design and Technology course as well.
+I would also like to acknowledge the YouTube creator @whyRD, whose videos proved to be an invaluable resource during my initial exploration of this open-source EDA tool at the start of my college journey.
 
 
 
